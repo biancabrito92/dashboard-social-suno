@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suno — Social Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="assets/images/suno-logo.webp" alt="Suno" class="suno-logo-img" />
+      <span class="logo-tag">Social Dashboard</span>
+    </div>
+
+    <div class="sidebar-label">CONTAS</div>
+    <nav class="sidebar-nav" id="accountsNav">
+      <a href="#" class="nav-item active" data-account="suno">
+        <div class="nav-avatar av-suno">S</div>
+        <div class="nav-info">
+          <span class="nav-handle">@suno</span>
+          <span class="nav-name">Suno Investimentos</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-account="tiagogreis">
+        <div class="nav-avatar av-tiago">TR</div>
+        <div class="nav-info">
+          <span class="nav-handle">@tiagogreis</span>
+          <span class="nav-name">Tiago Reis</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-account="sunonoticias">
+        <div class="nav-avatar av-sunonoticias">SN</div>
+        <div class="nav-info">
+          <span class="nav-handle">@sunonoticias</span>
+          <span class="nav-name">Suno Notícias</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-account="sunoasset">
+        <div class="nav-avatar av-sunoasset">SA</div>
+        <div class="nav-info">
+          <span class="nav-handle">@sunoasset</span>
+          <span class="nav-name">Suno Asset</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-account="fundsexplorer">
+        <div class="nav-avatar av-fundsexplorer">FE</div>
+        <div class="nav-info">
+          <span class="nav-handle">@fundsexplorer</span>
+          <span class="nav-name">Funds Explorer</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-account="fiis.com.br">
+        <div class="nav-avatar av-fiis">FI</div>
+        <div class="nav-info">
+          <span class="nav-handle">@fiis.com.br</span>
+          <span class="nav-name">FIIS.com.br</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-account="status.invest">
+        <div class="nav-avatar av-status">SI</div>
+        <div class="nav-info">
+          <span class="nav-handle">@status.invest</span>
+          <span class="nav-name">Status Invest</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-account="professorbaroni">
+        <div class="nav-avatar av-baroni">PB</div>
+        <div class="nav-info">
+          <span class="nav-handle">@professorbaroni</span>
+          <span class="nav-name">Professor Baroni</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="sidebar-label">VISUALIZAÇÕES</div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item" data-view="daily">
+        <div class="nav-avatar nav-av-daily">☀️</div>
+        <div class="nav-info">
+          <span class="nav-handle">Daily</span>
+          <span class="nav-name">Reunião diária</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-view="gestao">
+        <div class="nav-avatar gray">📺</div>
+        <div class="nav-info">
+          <span class="nav-handle">Gestão à Vista</span>
+          <span class="nav-name">Resumo para TV</span>
+        </div>
+      </a>
+      <a href="#" class="nav-item" data-view="benchmark">
+        <div class="nav-avatar purple">🔍</div>
+        <div class="nav-info">
+          <span class="nav-handle">Benchmark</span>
+          <span class="nav-name">Canais de referência</span>
+        </div>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-label">ATUALIZAÇÃO</div>
+      <div class="update-row">
+        <span class="live-dot"></span>
+        <div>
+          <div class="update-date" id="lastUpdate">—</div>
+          <div class="update-src">Meta Business Suite</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR (account dashboard only) -->
+    <header class="topbar" id="mainTopbar">
+      <div class="topbar-left">
+        <div class="account-title-row">
+          <svg class="ig-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#f09433"/>
+                <stop offset="25%" stop-color="#e6683c"/>
+                <stop offset="50%" stop-color="#dc2743"/>
+                <stop offset="75%" stop-color="#cc2366"/>
+                <stop offset="100%" stop-color="#bc1888"/>
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#igGrad)"/>
+            <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="white" stroke-width="0"/>
+            <circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="17" cy="7" r="1.2" fill="white"/>
+          </svg>
+          <h1 class="page-title" id="accountName">@suno</h1>
+        </div>
+        <p class="page-sub" id="accountPeriod">—</p>
+      </div>
+      <div class="topbar-right">
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          Dados reais · Meta Business Suite
+        </div>
+        <div class="export-wrap" id="exportWrap">
+          <button class="export-btn" onclick="toggleExportMenu()" title="Exportar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar
+          </button>
+          <div class="export-menu" id="exportMenu" style="display:none">
+            <button class="export-opt" onclick="exportPDF()">🖨️ Exportar como PDF</button>
+            <button class="export-opt" onclick="exportCSV()">📊 Exportar dados CSV</button>
+            <button class="export-opt" onclick="exportJSON()">📋 Exportar dados JSON</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+  <div id="dashboardView">
+
+    <!-- KPI CARDS — POSTS -->
+    <div class="section-header">
+      <span class="section-label-text">Posts</span>
+    </div>
+    <section class="kpi-grid kpi-grid-7">
+      <div class="kpi-card kpi-followers" data-color="orange">
+        <div class="kpi-top"><span class="kpi-icon">👥</span><span class="kpi-label">Seguidores</span></div>
+        <div class="kpi-value" id="kpiFollowers">—</div>
+        <div class="kpi-sub" id="kpiFollowersSub">—</div>
+      </div>
+      <div class="kpi-card" data-color="orange">
+        <div class="kpi-top"><span class="kpi-icon">👁️</span><span class="kpi-label">Alcance Total</span></div>
+        <div class="kpi-value" id="kpiReach">—</div>
+        <div class="kpi-sub" id="kpiReachSub">—</div>
+      </div>
+      <div class="kpi-card" data-color="blue">
+        <div class="kpi-top"><span class="kpi-icon">▶️</span><span class="kpi-label">Visualizações</span></div>
+        <div class="kpi-value" id="kpiViews">—</div>
+        <div class="kpi-sub" id="kpiViewsSub">—</div>
+      </div>
+      <div class="kpi-card" data-color="green">
+        <div class="kpi-top"><span class="kpi-icon">💬</span><span class="kpi-label">Engajamento Total</span></div>
+        <div class="kpi-value" id="kpiEngagement">—</div>
+        <div class="kpi-sub" id="kpiEngSub">—</div>
+      </div>
+      <div class="kpi-card" data-color="purple">
+        <div class="kpi-top"><span class="kpi-icon">📊</span><span class="kpi-label">Taxa Méd. Engaj.</span></div>
+        <div class="kpi-value" id="kpiEngRate">—</div>
+        <div class="kpi-sub">benchmark setor: ~3%</div>
+      </div>
+      <div class="kpi-card" data-color="teal">
+        <div class="kpi-top"><span class="kpi-icon">🔁</span><span class="kpi-label">Compartilhamentos</span></div>
+        <div class="kpi-value" id="kpiShares">—</div>
+        <div class="kpi-sub" id="kpiSharesSub">—</div>
+      </div>
+      <div class="kpi-card" data-color="pink">
+        <div class="kpi-top"><span class="kpi-icon">🔖</span><span class="kpi-label">Salvamentos</span></div>
+        <div class="kpi-value" id="kpiSaves">—</div>
+        <div class="kpi-sub" id="kpiSavesSub">—</div>
+      </div>
+    </section>
+
+    <!-- MIX DE FORMATOS — strip inline logo abaixo dos KPIs -->
+    <div class="card" id="mixFormatStrip" style="padding:14px 20px">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <span style="font-size:11px;font-weight:700;color:var(--text-4);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap">Mix de Formatos</span>
+        <div id="chartFormats" class="ch-mix-container" style="flex:1;min-width:200px"></div>
+      </div>
+    </div>
+
+    <!-- MTD BANNER — right below KPI cards -->
+    <div id="mtdBanner" class="mtd-banner" style="display:none"></div>
+
+    <!-- INSIGHTS DIÁRIOS -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📅 Insights dos Últimos 7 Dias</div>
+          <div class="card-sub">Análise automática gerada diariamente com base nos dados reais</div>
+        </div>
+        <span class="tag-live">Atualizado hoje</span>
+      </div>
+      <div id="dailyInsightsList"></div>
+    </section>
+
+    <!-- CRESCIMENTO DE SEGUIDORES -->
+    <section class="card" id="followersChartCard">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📈 Crescimento de Seguidores</div>
+          <div class="card-sub">Total diário e variação — fonte: Social Blade</div>
+        </div>
+        <div id="followersAvgBadge"></div>
+      </div>
+      <canvas id="chartFollowers" height="65"></canvas>
+    </section>
+
+    <!-- ALCANCE POR DIA -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Alcance por Dia</div>
+          <div class="card-sub">Evolução diária de alcance e visualizações no período</div>
+        </div>
+        <div class="chart-legend">
+          <span><span class="leg" style="background:#C8191A"></span>Alcance</span>
+          <span><span class="leg" style="background:#2563EB"></span>Views</span>
+        </div>
+      </div>
+      <canvas id="chartDaily" height="70"></canvas>
+    </section>
+
+    <!-- TAXA DE ENGAJAMENTO POR DIA -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Taxa de Engajamento por Dia</div>
+          <div class="card-sub">Engajamento / Alcance diário (%)</div>
+        </div>
+        <div class="chart-legend">
+          <span><span class="leg" style="background:#16A34A"></span>Taxa de Engaj. (%)</span>
+        </div>
+      </div>
+      <canvas id="chartDailyEng" height="60"></canvas>
+    </section>
+
+    <!-- CHARTS 2-col -->
+    <section class="charts-2">
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Alcance Mensal</div><div class="card-sub">Alcance + views por mês</div></div>
+        </div>
+        <canvas id="chartMonthly" height="160"></canvas>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Engajamento por Mês</div><div class="card-sub">Curtidas · comentários · shares · saves</div></div>
+        </div>
+        <canvas id="chartEngagement" height="160"></canvas>
+      </div>
+    </section>
+
+    <!-- CHARTS 2-col -->
+    <section class="charts-2">
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Posts por Mês</div><div class="card-sub">Volume de publicações</div></div>
+        </div>
+        <canvas id="chartPosts" height="130"></canvas>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Alcance Médio por Formato</div><div class="card-sub">Média de pessoas alcançadas por post</div></div>
+        </div>
+        <canvas id="chartFormatReach" height="130"></canvas>
+      </div>
+    </section>
+
+    <!-- TOP POSTS COM IMAGENS -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Top Posts do Período</div>
+          <div class="card-sub">Melhores posts por métrica — com pré-visualização</div>
+        </div>
+        <div class="tab-group" id="topPostsTabs">
+          <button class="tab active" data-key="by_reach">Alcance</button>
+          <button class="tab" data-key="by_views">Views</button>
+          <button class="tab" data-key="by_engagement_rate">Engajamento</button>
+          <button class="tab" data-key="by_shares">Shares</button>
+          <button class="tab" data-key="by_saves">Saves</button>
+          <button class="tab" data-key="by_follows">Seguidores</button>
+        </div>
+      </div>
+      <div class="top-posts-grid" id="topPostsGrid"></div>
+    </section>
+
+    <!-- COPYWRITING INSIGHTS LISTA -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">✍️ Análise de Conteúdo e Estratégia</div>
+          <div class="card-sub">Copywriting, estrutura de posts e melhores horários para publicar</div>
+        </div>
+      </div>
+      <div id="copyInsightsList"></div>
+    </section>
+
+    <!-- ══════════════ STORIES ══════════════ -->
+    <div class="section-divider">
+      <span class="section-divider-label">Stories</span>
+    </div>
+
+    <!-- STORIES KPI CARDS -->
+    <section class="kpi-grid">
+      <div class="kpi-card" data-color="orange">
+        <div class="kpi-top"><span class="kpi-icon">👁️</span><span class="kpi-label">Alcance Stories</span></div>
+        <div class="kpi-value" id="kpiStoriesReach">—</div>
+        <div class="kpi-sub" id="kpiStoriesReachSub">—</div>
+      </div>
+      <div class="kpi-card" data-color="blue">
+        <div class="kpi-top"><span class="kpi-icon">▶️</span><span class="kpi-label">Impressões</span></div>
+        <div class="kpi-value" id="kpiStoriesViews">—</div>
+        <div class="kpi-sub" id="kpiStoriesViewsSub">—</div>
+      </div>
+      <div class="kpi-card" data-color="purple">
+        <div class="kpi-top"><span class="kpi-icon">💬</span><span class="kpi-label">Respostas</span></div>
+        <div class="kpi-value" id="kpiStoriesReplies">—</div>
+        <div class="kpi-sub">interações diretas</div>
+      </div>
+      <div class="kpi-card" data-color="teal">
+        <div class="kpi-top"><span class="kpi-icon">👤</span><span class="kpi-label">Visitas ao Perfil</span></div>
+        <div class="kpi-value" id="kpiStoriesVisits">—</div>
+        <div class="kpi-sub">via stories</div>
+      </div>
+      <div class="kpi-card" data-color="green">
+        <div class="kpi-top"><span class="kpi-icon">🔗</span><span class="kpi-label">Cliques no Link</span></div>
+        <div class="kpi-value" id="kpiStoriesClicks">—</div>
+        <div class="kpi-sub">via link sticker</div>
+      </div>
+      <div class="kpi-card" data-color="pink">
+        <div class="kpi-top"><span class="kpi-icon">📖</span><span class="kpi-label">Total de Stories</span></div>
+        <div class="kpi-value" id="kpiStoriesCount">—</div>
+        <div class="kpi-sub" id="kpiStoriesAvg">—</div>
+      </div>
+    </section>
+
+    <!-- ALCANCE DIÁRIO STORIES -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Alcance Diário dos Stories</div>
+          <div class="card-sub">Evolução diária de alcance e impressões dos stories</div>
+        </div>
+        <div class="chart-legend">
+          <span><span class="leg" style="background:#F5820D"></span>Alcance</span>
+          <span><span class="leg" style="background:#7C3AED"></span>Impressões</span>
+        </div>
+      </div>
+      <canvas id="chartStoriesDaily" height="70"></canvas>
+    </section>
+
+    <!-- TOP STORIES -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Top Stories do Período</div>
+          <div class="card-sub">Stories com maior alcance</div>
+        </div>
+        <div class="tab-group" id="storiesTopTabs">
+          <button class="tab active" data-skey="by_reach">Alcance</button>
+          <button class="tab" data-skey="by_views">Impressões</button>
+          <button class="tab" data-skey="by_replies">Respostas</button>
+          <button class="tab" data-skey="by_clicks">Link Clicks</button>
+        </div>
+      </div>
+      <div id="storiesTopList"></div>
+    </section>
+
+  </div> <!-- /#dashboardView -->
+
+  <!-- ══════════════ DAILY ══════════════ -->
+  <div id="dailyView" style="display:none">
+
+    <header class="gestao-header daily-header">
+      <div>
+        <h1 class="gestao-title" id="dailyTitle">☀️ Daily · Social Media</h1>
+        <div class="gestao-sub" id="dailySubtitle">Resultados de ontem e plano de hoje</div>
+      </div>
+      <div class="gestao-badge" style="background:#FEF9C3;border-color:#FDE047;color:#854D0E">
+        <span style="width:8px;height:8px;border-radius:50%;background:#F59E0B;display:inline-block"></span>
+        Reunião diária
+      </div>
+    </header>
+
+    <!-- ARQUIVO DE DAILIES -->
+    <div class="daily-archive-bar" id="dailyArchiveBar">
+      <span class="daily-archive-label">📁 Arquivo</span>
+      <span class="daily-archive-empty" id="dailyArchiveItems">Carregando…</span>
+    </div>
+
+    <!-- 1. METAS DO PERÍODO -->
+    <section class="daily-section">
+      <div class="daily-section-title" id="dailySectionMetas">🎯 Metas do Período · onde estamos em relação aos indicadores</div>
+      <div id="dailyMetasPanel"></div>
+    </section>
+
+    <!-- 2. RESULTADOS POR CANAL -->
+    <section class="daily-section">
+      <div class="daily-section-title" id="dailySectionChannels">📡 Resultados por Canal · métricas de cada post de ontem</div>
+      <div id="dailyChannels" class="daily-channels-grid"></div>
+    </section>
+
+    <!-- 3. MELHOR E PIOR POR CANAL -->
+    <section class="daily-section">
+      <div class="daily-section-title" id="dailySectionContent">🏆 Destaques por Canal · melhor e pior post de cada um</div>
+      <div id="dailyContent"></div>
+    </section>
+
+    <!-- 4. PLANO DE AÇÃO POR CANAL -->
+    <section class="daily-section">
+      <div class="daily-section-title" id="dailySectionPlan">🎯 Plano de Ação de Hoje · o que cada canal precisa fazer</div>
+      <div id="dailyActionPlan"></div>
+    </section>
+
+  </div> <!-- /#dailyView -->
+
+  <!-- ══════════════ GESTÃO À VISTA ══════════════ -->
+  <div id="gestaoView" style="display:none">
+
+    <header class="gestao-header">
+      <div>
+        <h1 class="gestao-title">Gestão à Vista · Social Media</h1>
+        <div class="gestao-sub" id="gestaoDate">—</div>
+      </div>
+      <div class="gestao-header-actions">
+        <button class="tv-btn" id="tvModeBtn" onclick="toggleTvMode()" title="Fullscreen pra TV widescreen">
+          🖥️ <span id="tvBtnLabel">Modo TV</span>
+        </button>
+        <div class="gestao-badge">
+          <span class="live-dot"></span> Dados reais · Instagram
+        </div>
+      </div>
+    </header>
+
+    <!-- METAS DO PERÍODO -->
+    <section class="gestao-section">
+      <div class="gestao-section-title">🎯 Metas do Período · todas as unidades de negócio</div>
+      <div id="gestaoMetasList"></div>
+    </section>
+
+    <!-- GRID DE CONTAS (TV) -->
+    <div id="gestaoAllAccounts"></div>
+
+    <!-- TOP POSTS DA SEMANA -->
+    <section class="gestao-section" id="gestaoTopWeekSection" style="display:none">
+      <div class="gestao-section-title">🔥 Top Post da Semana · o melhor post de cada canal nos últimos 7 dias</div>
+      <div class="gestao-top-posts-row" id="gestaoTopWeek"></div>
+    </section>
+
+    <!-- TOP POSTS DO MÊS -->
+    <section class="gestao-section" id="gestaoTopMonthSection" style="display:none">
+      <div class="gestao-section-title">📅 Top Post do Mês · o melhor post de cada canal no mês vigente</div>
+      <div class="gestao-top-posts-row" id="gestaoTopMonth"></div>
+    </section>
+
+  </div> <!-- /#gestaoView -->
+
+  <!-- ══════════════ BENCHMARK ══════════════ -->
+  <div id="benchmarkView" style="display:none">
+
+    <header class="gestao-header">
+      <div>
+        <h1 class="gestao-title">🔍 Canais de Referência</h1>
+        <div class="gestao-sub">Benchmark e inspiração de conteúdo · mercado financeiro e educação</div>
+      </div>
+      <div class="gestao-badge" style="background:var(--blue-l);border-color:#BFDBFE;color:var(--blue)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block"></span>
+        Atualizado manualmente
+      </div>
+    </header>
+
+    <!-- COPIES QUE FUNCIONAM — HIGHLIGHTS DOS BENCHMARKS -->
+    <section class="gestao-section">
+      <div class="gestao-section-title">🏆 Copies que Funcionam · destaques reais dos canais de referência</div>
+      <div class="gestao-section-sub" style="font-size:12px;color:var(--text-3);margin-bottom:12px;margin-top:-4px">Um post em destaque por canal — leia as copies, observe a estrutura e se inspire</div>
+      <div class="gestao-top-posts-row" id="benchmarkTopWeek"></div>
+    </section>
+
+    <!-- INSIGHTS ACIONÁVEIS DA SEMANA -->
+    <section class="gestao-section">
+      <div class="gestao-section-title">💡 Ações pra Suno · o que cada canal de referência pode nos ensinar</div>
+      <div id="benchmarkWeekInsights" class="benchmark-insights-grid"></div>
+    </section>
+
+    <!-- CANAIS DE REFERÊNCIA -->
+    <div class="gestao-section-title" style="margin-bottom:16px">📌 Canais de Referência</div>
+    <div id="benchmarkGrid" class="benchmark-grid"></div>
+
+  </div> <!-- /#benchmarkView -->
+
+  </main>
+
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

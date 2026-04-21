@@ -1,0 +1,7 @@
+[
+  { "indicador": "Leads Total",             "realizado": 6182,  "meta": 8738,  "meta_dia": 284,    "unidade": "" },
+  { "indicador": "Reuniões Marcadas - SS",  "realizado": 160,   "meta": 200,   "meta_dia": 5,      "unidade": "" },
+  { "indicador": "Vendas Research",         "realizado": 53650, "meta": 56689, "meta_dia": 338,    "unidade": "" },
+  { "indicador": "Vendas Status Invest",    "realizado": 2596,  "meta": 12859, "meta_dia": 10263,  "unidade": "" },
+  { "indicador": "Leads - MPR",             "realizado": 240,   "meta": 247,   "meta_dia": 10,     "unidade": "" }
+]

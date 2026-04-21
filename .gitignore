@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Credenciais — nunca commitar
+.env
+
+# CSVs brutos exportados do Meta Business Suite (grandes demais + dados raw)
+*.csv
+
+# Claude Code config
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Arquivos soltos não usados pelo dashboard
+suno-research-squareLogo*.webp
